@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+// Function to count the number of 0s in the array
+int countZeroes(int arr[], int n) {
+    // Initialize low and high pointers for binary search
+    int low = 0, high = n - 1;
+
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        // Check if the mid element is the first 0
+        if (arr[mid] == 0 && (mid == 0 || arr[mid - 1] == 1)) {
+            return n - mid; // All elements from mid to end are 0s
+        } else if (arr[mid] == 1) {
+            low = mid + 1; // Move to the right half
+        } else {
+            high = mid - 1; // Move to the left half
+        }
+    }
+
+    return 0; // If no 0s are found
+}
+
+int main() {
+    int n;
+    cout << "Enter the number of elements in the array: ";
+    cin >> n;
+
+    int arr[n];
+    cout << "Enter the elements of the array (only 1s followed by 0s):" << endl;
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    int zeroCount = countZeroes(arr, n);
+
+    cout << "Number of zeroes: " << zeroCount << endl;
+
+    return 0;
+}
