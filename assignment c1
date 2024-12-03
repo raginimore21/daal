@@ -1,0 +1,34 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to count the number of ways to make a given sum
+int countWaysToMakeSum(vector<int>& coins, int targetSum) {
+    vector<int> dp(targetSum + 1, 0); // Initialize dp array with 0
+    dp[0] = 1; // Base case: one way to make sum 0
+
+    // Iterate through each coin
+    for (int coin : coins) {
+        for (int j = coin; j <= targetSum; j++) {
+            dp[j] += dp[j - coin];
+        }
+    }
+
+    return dp[targetSum];
+}
+
+int main() {
+    // Example 1
+    vector<int> coins1 = {1, 2, 3};
+    int sum1 = 4;
+    cout << "Number of ways to make sum " << sum1 << " is: " 
+         << countWaysToMakeSum(coins1, sum1) << endl;
+
+    // Example 2
+    vector<int> coins2 = {2, 5, 3, 6};
+    int sum2 = 10;
+    cout << "Number of ways to make sum " << sum2 << " is: " 
+         << countWaysToMakeSum(coins2, sum2) << endl;
+
+    return 0;
+}
