@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Function to perform DFS and count paths
+void countPathsDFS(vector<vector<int>>& graph, int current, int destination, vector<bool>& visited, int& pathCount) {
+    if (current == destination) {
+        pathCount++; // Reached destination, increment path count
+        return;
+    }
+
+    // Mark the current vertex as visited
+    visited[current] = true;
+
+    // Recur for all adjacent vertices
+    for (int neighbor : graph[current]) {
+        if (!visited[neighbor]) {
+            countPathsDFS(graph, neighbor, destination, visited, pathCount);
+        }
+    }
+
+    // Backtrack: Mark the current vertex as unvisited
+    visited[current] = false;
+}
+
+// Function to count all paths between two vertices
+int countPaths(vector<vector<int>>& graph, int source, int destination, int numVertices) {
+    vector<bool> visited(numVertices, false); // Keep track of visited vertices
+    int pathCount = 0;
+
+    // Start DFS from the source
+    countPathsDFS(graph, source, destination, visited, pathCount);
+
+    return pathCount;
+}
+
+int main() {
+    // Example Graph (Adjacency List)
+    // A = 0, B = 1, C = 2, D = 3, E = 4
+    vector<vector<int>> graph = {
+        {1, 2, 3}, // A -> B, C, D
+        {3, 4},    // B -> D, E
+        {4},       // C -> E
+        {},        // D ->
+        {}         // E ->
+    };
+
+    // Input 1: Count paths between A (0) and E (4)
+    int source = 0, destination = 4;
+    cout << "Total paths between A and E: " 
+         << countPaths(graph, source, destination, graph.size()) << endl;
+
+    // Input 2: Count paths between A (0) and C (2)
+    source = 0, destination = 2;
+    cout << "Total paths between A and C: " 
+         << countPaths(graph, source, destination, graph.size()) << endl;
+
+    return 0;
+}
