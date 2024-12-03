@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+#include <set>
+using namespace std;
+
+// Function to find all distinct subsets
+void findSubsets(vector<int>& arr) {
+    int n = arr.size();
+    set<vector<int>> uniqueSubsets; // To store distinct subsets
+
+    // Generate all subsets using bit masking
+    int totalSubsets = 1 << n; // 2^n subsets
+    for (int mask = 0; mask < totalSubsets; mask++) {
+        vector<int> subset;
+        for (int i = 0; i < n; i++) {
+            // If the i-th bit in mask is set, include arr[i]
+            if (mask & (1 << i)) {
+                subset.push_back(arr[i]);
+            }
+        }
+        // Sort subset to handle duplicates
+        sort(subset.begin(), subset.end());
+        uniqueSubsets.insert(subset);
+    }
+
+    // Print all unique subsets
+    cout << "Distinct subsets:" << endl;
+    for (const auto& subset : uniqueSubsets) {
+        cout << "{ ";
+        for (int x : subset) {
+            cout << x << " ";
+        }
+        cout << "}" << endl;
+    }
+}
+
+int main() {
+    // Example 1
+    vector<int> arr1 = {1, 2, 2};
+    cout << "Input: {1, 2, 2}" << endl;
+    findSubsets(arr1);
+
+    // Example 2
+    vector<int> arr2 = {1, 2};
+    cout << "\nInput: {1, 2}" << endl;
+    findSubsets(arr2);
+
+    return 0;
+}
